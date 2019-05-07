@@ -56,6 +56,26 @@
 <section>
 <p><h1>Mentions Légales</h1></p>
    
+<form action="#" method="post">
+<input type="checkbox" name="check_list[0]" value="Température"><label>Température</label><br/>
+<input type="checkbox" name="check_list[1]" value="Luminosité"><label>Luminosité</label><br/>
+<input type="checkbox" name="check_list[2]" value="Présence"><label>Présence</label><br/>
+<input type="checkbox" name="check_list[3]" value="L'écran de projection"><label>Ecran de projection (cochez si vous en avez besoin)</label><br/>
+<input type="submit" name="submit" value="Submit"/>
+</form>
+<?php
+if(isset($_POST['submit'])){//to run PHP script on submit
+if(!empty($_POST['check_list'])){
+// Loop to store and display values of individual checked checkbox.
+echo "Vous avez choisi de paramétrez les facteurs suivants:". "</br>"; 
+foreach($_POST['check_list'] as $selected){
+echo $selected."</br>";
+}
+}
+}
+
+
+?>   
 
 </section>
 
