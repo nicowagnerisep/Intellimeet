@@ -1,6 +1,11 @@
 <?php
+
+
+#DONE
+
+
 try{
-$bdd = new PDO('mysql:host=localhost;dbname=espace_membre', 'root', 'root');
+    require '../models/dbConnect.php';
 
 if(isset($_POST['forminscription'])) {
    $pseudo = htmlspecialchars($_POST['pseudo']);

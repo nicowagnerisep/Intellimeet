@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$bdd = new PDO('mysql:host=localhost;dbname=espace_membre', 'root', 'root');
+require '../models/dbConnect.php';
 $getid = intval($_GET['id']);
 $requser1 = $bdd->prepare('SELECT * FROM membres WHERE id = ?');
 $requser1->execute(array($getid));

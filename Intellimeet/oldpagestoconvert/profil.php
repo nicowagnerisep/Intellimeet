@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$bdd = new PDO('mysql:host=localhost;dbname=espace_membre', 'root', 'root');
+require '../models/dbConnect.php';
 
 if(isset($_GET['id']) AND $_GET['id'] > 0) {
    $getid = intval($_GET['id']);
@@ -9,6 +9,8 @@ if(isset($_GET['id']) AND $_GET['id'] > 0) {
    $requser->execute(array($getid));
    $userinfo = $requser->fetch();
 ?>
+
+
 <html>
    <head>
       <title>TUTO PHP</title>

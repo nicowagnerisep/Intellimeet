@@ -1,12 +1,13 @@
 <?php
 
+#done
+
 try{
 
 
 
 
-$bdd = new PDO('mysql:host=localhost;dbname=espace_membre', 'root', 'root');
-
+require '../models/dbConnect.php';
 
 $reponse = $bdd->query('SELECT etat FROM salles');
 $t=1;
