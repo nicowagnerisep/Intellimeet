@@ -18,6 +18,7 @@ if(isset($_SESSION['id'])) {
 
  <html>
  <head>
+  <meta charset="utf-8" http-equiv="refresh" content="120;url=salleN.php">
   <?php
   require('header.php');
   ?>
@@ -33,6 +34,9 @@ if(isset($_SESSION['id'])) {
       color: black;
       text-decoration:none;
       font-style: normal;
+    }
+    div.accessalle{
+      color: black;
     }
 
     
@@ -95,8 +99,9 @@ if(isset($_SESSION['id'])) {
               <?php 
             }else{
               ?>
-              <div class=<?php echo $donneeh['nomsalle']; ?>><?php echo $name_unstick; ?> <br><?php echo $donneehbis['nbplaces']; ?> places<br> Réservé par <?php echo $donneehbis['pseudo_id']; ?> 
-              <br></div>
+              
+              <div class=<?php echo $donneeh['nomsalle']; ?>><div class="accessalle"><?php echo $name_unstick; ?> <br><?php echo $donneehbis['nbplaces']; ?> places<br> Réservé par <?php echo $donneehbis['pseudo_id']; ?> 
+              <br></div></div>
 
               <?php
             } 
@@ -127,13 +132,19 @@ if(isset($_SESSION['id'])) {
 
             }
 
-          }
+          } if ($user['isadmin']==1) {
           ?>
-          <!--- 1 MODIF 14/05 /////////////////////-->
-
+          
           <div class="create">
 
             <a href="createroom.php"><span>+</span></a></div>
+
+          <?php
+          }
+          ?>
+          
+
+          
 
 
 

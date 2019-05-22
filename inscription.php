@@ -1,6 +1,7 @@
 <?php
-try{
-$bdd = new PDO('mysql:host=localhost;dbname=espace_membre', 'root', 'root');
+
+
+require('connexionbdd.php');
 
 if(isset($_POST['forminscription'])) {
    $pseudo = htmlspecialchars($_POST['pseudo']);
@@ -29,8 +30,10 @@ if(isset($_POST['forminscription'])) {
                   if($mailexist == 0) {
             
                      if($mdp == $mdp2) {
-                        $insertmbr = $bdd->prepare("INSERT INTO membres(pseudo, mail, motdepasse) VALUES(?, ?, ?)");
-                        $insertmbr->execute(array($pseudo, $mail, $mdp));
+                        $isadmin=0;
+                        $adminreq=0;
+                        $insertmbr = $bdd->prepare("INSERT INTO membres(pseudo, mail, motdepasse,isadmin,adminreq) VALUES(?, ?, ?,?,?)");
+                        $insertmbr->execute(array($pseudo, $mail, $mdp, $isadmin,$adminreq));
                         $erreur = "Votre compte a bien été créé ! <a href=\"connexion.php\">Me connecter</a>";
             
                      } else {
@@ -60,80 +63,18 @@ if(isset($_POST['forminscription'])) {
       $erreur7 = "";//"Tous les champs doivent être complétés !";
    }
 }
-}
-catch (Exception $e)
-{
-        die('Erreur : ' . $e->getMessage());
-}
+
+
 ?>
 
 <!-- HEADER -->
 
 <html>
 <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="style.css" >
-    <title>IntelliMeet</title>
+  <?php
+    require('header.php');
+    ?>
 </head>
-
-<body>
-
-
-<header>
-
-<li><a href="scratch.php"><img src="IntelliMeet_Logo_JPG_New.jpg" class="imageheader" height="100%"" alt="Logo"/></a></li>
-
-
-
-
-<!-- <li><a href="?click=1"><img src="IntelliMeet_Logo_JPG_New.jpg" class="imageheader" height="100%"" alt="Logo"/></a></li>
-<?php
-        if (isset($_GET["click"])) {
-                 
-
-        header('Location: profil.php?id='.$_SESSION['id']);
-        }
-      
-?> -->
-
-<div id="menu">
-<ul>
-  <li><a href="scratch.php">Accueil</a></li>
-  <li><a href="#">Réserver</a>
-  <ul>
-      <li><a href="listesalles.php">Réserver une salle</a></li>
-      <li><a href="listesallesoff.php">Accéder au planning</a></li>
-    </ul></li>
-  <li><a href="#">Mes réunions</a>
-   <ul>
-      <li><a href="#">Réunions à venir</a></li>
-      <li><a href="#">Historique</a></li>
-      <li><a href="#">Mes paramètres</a></li>
-    </ul>
-  </li>
-  <li><a href="#">Notre équipe</a>
-   <ul>
-      <li><a href="#">Domisep</a></li>
-      <li><a href="#">Notre projet</a></li>
-    </ul>
-  </li>
-  <li><a href="#">Contact</a>
-   <ul>
-      <li><a href="#">SAV</a></li>
-      <li><a href="#">Propositions et remarques</a></li>
-    </ul>
-  </li>
-
-
-</ul>
-</div>
-
-<div id="login">
-<ul>
-   <li><a href="connexion.php">Login</a></li>
-</div>
-
-</header>
 
 <!-- HEADER -->
 
@@ -193,97 +134,13 @@ catch (Exception $e)
             </table>
          </form>
          <?php
-         if(isset($erreur)) {
-            echo '<font color="red">'.$erreur."</font>";
-         }else if(isset($erreur1)) {
-        ?>
-        <script>
-          alert("Vos mots de passes ne correspondent pas !");
-        </script>
-        <?php
-        }else if (isset($erreur2)) {
-          ?>
-          <script>
-          alert("Adresse mail déjà utilisée !");
-        </script>
-        
-        <?php
-        }else if(isset($erreur3)) {
-        ?>
-        <script>
-          alert("Votre adresse mail n'est pas valide !");
-        </script>
-        <?php
-        }else if (isset($erreur4)) {
-          ?>
-          <script>
-          alert("Vos adresses mail ne correspondent pas !");
-        </script>
-        
-        <?php
-        }else if(isset($erreur5)) {
-        ?>
-        <script>
-          alert("Pseudo déja utilisé !");
-        </script>
-        <?php
-        }else if (isset($erreur6)) {
-          ?>
-          <script>
-          alert("Votre pseudo ne doit pas dépasser 255 caractères !");
-        </script>
-        
-        <?php
-        }else if (isset($erreur7)) {
-          ?>
-          <script>
-          alert("Tous les champs doivent être complétés !");
-        </script>
-        
-        <?php
-        }
+         //require('isset.php');
 
          ?>
       </div>
    </body>
-
-   <footer>
-
-<div id ="footerleft">
-Mentions légales
-<br/>
-Breadcrumbs 
-
-</div>
-
-<div id ="footermiddle">
-Domisep
-
-</div>
-
-
-<div id= "footerright">
-
-<?php
-//heure
-function showtime(){
-date_default_timezone_set("Europe/Paris");
-echo "" . date("d/m/Y") . "<br>";
-echo "" . date("h:i:s");
-}
-showtime();
-?>
-<br/>
-<br/>
-<strong>Contact</strong>
-</div>
-
-</footer>
-
-
-
-
-
-
+   <?php
+   require('footer.php');
+   ?>
 
 </html>
