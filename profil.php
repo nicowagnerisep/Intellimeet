@@ -4,179 +4,183 @@ session_start();
 $bdd = new PDO('mysql:host=localhost;dbname=espace_membre', 'root', 'root');
 
 if(isset($_GET['id']) AND $_GET['id'] > 0) {
-   $getid = intval($_GET['id']);
-   $requser = $bdd->prepare('SELECT * FROM membres WHERE id = ?');
-   $requser->execute(array($getid));
-   $userinfo = $requser->fetch();
-   
-?>
+ $getid = intval($_GET['id']);
+ $requser = $bdd->prepare('SELECT * FROM membres WHERE id = ?');
+ $requser->execute(array($getid));
+ $userinfo = $requser->fetch();
+ require('isset.php');
 
-<!-- HEADER -->
+ if(isset($_POST['adminbtn'])){
+  $adminreq=1;
+  $req= $bdd->prepare("UPDATE membres SET adminreq =? WHERE mail = '".$userinfo['mail']."'");
+  $req->execute(array($adminreq));
+}
+
+
+
+?>
 
 <html>
 <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="style.css" >
-    <title>IntelliMeet</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="style.css" >
+  <title>IntelliMeet</title>
 </head>
 
 <body>
 
 
-<header>
+  <header>
 
 
-<li><a href="scratch.php"><img src="IntelliMeet_Logo_JPG_New.jpg" class="imageheader" height="100%"" alt="Logo"/></a></li>
-
-
-
-
+    <li><a href="scratch.php"><img src="IntelliMeet_Logo_JPG_New.jpg" class="imageheader" height="100%"" alt="Logo"/></a></li>
 <!-- <li><a href="?click=1"><img src="IntelliMeet_Logo_JPG_New.jpg" class="imageheader" height="100%"" alt="Logo"/></a></li>
 <?php
         if (isset($_GET["click"])) {
                  
-
         header('Location: profil.php?id='.$_SESSION['id']);
         }
       
-?> -->
+        ?> -->
 
 
-<div id="menu">
-<ul>
-  <li><a href="scratch.php">Accueil</a></li>
-  <li><a href="#">Réserver</a>
-  <ul>
-      <li><a href="listesalles.php">Réserver une salle</a></li>
-      <li><a href="listesallesoff.php">Accéder au planning</a></li>
-    </ul></li>
-  <li><a href="#">Mes réunions</a>
-   <ul>
-      <li><a href="#">Réunions à venir</a></li>
-      <li><a href="#">Historique</a></li>
-      <li><a href="#">Mes paramètres</a></li>
-    </ul>
-  </li>
-  <li><a href="#">Notre équipe</a>
-   <ul>
-      <li><a href="#">Domisep</a></li>
-      <li><a href="#">Notre projet</a></li>
-    </ul>
-  </li>
-  <li><a href="#">Contact</a>
-   <ul>
-      <li><a href="#">SAV</a></li>
-      <li><a href="#">Propositions et remarques</a></li>
-    </ul>
-  </li>
+        <div id="menu">
+          <ul>
+            <li><a href="scratch.php">Accueil</a></li>
+            <li><a href="#">Réserver</a>
+              <ul>
+                <li><a href="listesalles.php">Réserver une salle</a></li>
+                <li><a href="listesallesoff.php">Accéder au planning</a></li>
+              </ul></li>
+              <li><a href="#">Mes réunions</a>
+               <ul>
+                <li><a href="#">Réunions à venir</a></li>
+                <li><a href="#">Historique</a></li>
+                <li><a href="#">Mes paramètres</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Notre équipe</a>
+             <ul>
+              <li><a href="#">Domisep</a></li>
+              <li><a href="#">Notre projet</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Contact</a>
+           <ul>
+            <li><a href="#">SAV</a></li>
+            <li><a href="#">Propositions et remarques</a></li>
+          </ul>
+        </li>
 
 
-</ul>
-</div>
+      </ul>
+    </div>
 
-<div id="login">
-<ul>
-   <li><a href="#"><?php echo $userinfo['pseudo']; ?></a></li>
-</div>
+    <div id="login">
+      <ul>
+       <li><a href="#"><?php echo $userinfo['pseudo']; ?></a></li>
+       <li><a href="deconnexion.php"> déconnection </a></li>
 
-</header>
 
-<!-- HEADER -->
+  
+     </div>
 
-   <body>
-      <div align="center">
-         <h2>Profil de <?php echo $userinfo['pseudo']; ?></h2>
-         <br /><br />
-         Pseudo = <?php echo $userinfo['pseudo']; ?>
-         <br />
-         Mail = <?php echo $userinfo['mail']; ?>
-         <br />
-         <?php
-         if(isset($_SESSION['id']) AND $userinfo['id'] == $_SESSION['id']) {
-         ?>
-         <br />
-         <a href="editionprofil.php">Editer mon profil</a>
-         <a href="deconnexion.php">Se déconnecter</a>
-         <a href="listesalles.php">Liste des salles</a>
-         
+     <script>
+      function demandeAdmin(){
+
+
+        alert("Demande d'admin envoyée");
+      }
+
+    </script> 
+
+  </header>
 
 
 
 
 
+  <body>
+    <div align="center">
+     <h2>Profil de <?php echo $userinfo['pseudo']; ?></h2>
+     <br /><br />
+     Pseudo = <?php echo $userinfo['pseudo']; ?>
+     <br />
+     Mail = <?php echo $userinfo['mail']; ?>
+     <br />
+     Type de compte = <?php if($userinfo['isadmin']==1){echo "<font color='gold'>administrateur </font>";}else{echo "<font color='lime'>utilisateur</font>";} ?>
+     <br />
+     <?php
+     if($userinfo['id'] == $_SESSION['id']) {
+           // isset($_SESSION['id']) AND 
+       ?>
+       <br />
+       <a href="editionprofil.php">Editer mon profil</a>
+       <a href="deconnexion.php">Se déconnecter</a>
+       <a href="listesalles.php">Liste des salles</a>
+       <a href="listesalleMODIFENCOURS.php">Liste des salles en edit </a>
 
 
+       <?php
+       if($userinfo['adminreq']==1){
+        echo "<br />\n <font color='red'><I>Demande admin envoyée </I></font><br />\n";
+      }else if($userinfo['isadmin']!=1){
+        ?>
+        <form method="post"><button class="adminbtn" name="adminbtn" value="Demande pour devenir admin" onclick= "demandeAdmin()">Demande pour devenir admin</button></form>
 
-
-
-
-         <!-- ////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\A ENLEVER -->
-       
-
-        <br><br><form method="post"><input type="submit" name="reset" value="Reset salles"></a></form>
         <?php
-        if(isset($_POST['reset'])){
-        $rselection = "0";
-        $insertvalsalle = $bdd->prepare("UPDATE salles SET etat= ?");
-        $insertvalsalle->execute(array($rselection));
+
+      }
+      if($userinfo['isadmin']==1){
+       ?>
+
+       <div align="center">
+         <p> demandes d'admin : </p><br>
+         <?php
+         $t=1;
+         $btn="addbtn";
+         $reqb = $bdd->query('SELECT * FROM membres');
+
+         while ($data = $reqb->fetch()) {
+           if($data['adminreq']==1){
+             echo  '<font color="red">'.$data['mail'] . "</font><br />\n";
+             ?>
+             <form method='post'><button class='addbtn' name=<?php echo $data['id'];?> > ... </button></form>
+             <?php
+             if(isset($_POST[$data['id']])){
+              echo "Voulez-vous vraiment modifer l'état de l'utilisateur {$data['mail']} en admin ?"."<br />\n";
+
+            }
+
+
+
+          }
+          $t++;
+
+
         }
 
+
+
+
         ?>
-        
- 
-         <!-- ////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
-         
 
 
 
 
-
-
-
-
-         <?php
-         }
-         ?>
       </div>
-   </body>
 
-   <!-- FOOTER -->
 
-<footer>
 
-<div id ="footerleft">
-Mentions légales
-<br/>
-Breadcrumbs 
-
+      <?php
+    }  
+  }
+  ?>
 </div>
-
-<div id ="footermiddle">
-Domisep
-
-</div>
-
-
-<div id= "footerright">
-
-<?php
-//heure
-function showtime(){
-date_default_timezone_set("Europe/Paris");
-echo "" . date("d/m/Y") . "<br>";
-echo "" . date("h:i:s");
-}
-showtime();
+</body>
+<?php 
+require('footer.php');
 ?>
-<br/>
-<br/>
-<strong>Contact</strong>
-</div>
-
-</footer>
-
-
-<!-- -->
 
 </html>
 <?php   

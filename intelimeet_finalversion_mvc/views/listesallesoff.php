@@ -2,9 +2,10 @@
 
 
 session_start();
+require('views/connectbdd.php');
 
 
-require('connexionbdd.php');
+
 
 
 if(isset($_SESSION['id'])){
@@ -22,7 +23,7 @@ $user = $requser->fetch();
 <html>
 <head>
   <?php
-  require('header.php');
+  require('views/header.php');
   ?>
   
   <style>
@@ -32,27 +33,18 @@ $user = $requser->fetch();
       /*background-color: #f1f1f1;*/
     }
     a.accessalle{
-      color: white;
+      color: black;
       text-decoration:none;
       font-style: normal;
-    }
-
-    .flex-container > div.create {
-      border-radius : 7px;
-      background-color: grey;
-      color: white;
-      width: 400px;
-      margin: 10px;
-      text-align: center;
-      line-height: 50px;
-      font-size: 30px;
-      position: relative;
       z-index: 1;
-
     }
+
+    
     div.accessalle{
+      color:black;
       
     }
+
 
 
 
@@ -94,23 +86,26 @@ $user = $requser->fetch();
             if ($donneehbis['etat']=='1') {
               ?>
               <style>
-                .flex-container > div.<?php echo $donneeh['nomsalle'];?> {
+                .modifdiv {
                   border-radius : 7px;
-                  background-color: red;
-                  color: white;
+                  background-image :url(views/ressources/reupleine.png); 
+                  
+                  color: black;
+                  background-size: cover;
                   width: 400px;
                   margin: 10px;
                   text-align: center;
                   line-height: 50px;
                   font-size: 30px;·
                 }
+
               </style>
 
 
               <?php
               if ($user['pseudo']==$donneehbis['pseudo_id']) {
                 ?>
-                <div class= <?php echo $donneeh['nomsalle']; ?> ><div class="accessalle"><a class="accessalle"  href= <?php echo "salleN.php?c={$donneeh['nomsalle']}"; ?> >
+                <div class="modifdiv" ><div class="accessalle"><a class="accessalle"  href= <?php echo "index.php?action=goto_salleN&c={$donneeh['nomsalle']}"; ?> >
                   <?php echo $name_unstick; ?> <br> <?php echo $donneehbis['nbplaces']; ?> places<br>
                   Modifier réservation <br> </a></div></div>
 
@@ -128,8 +123,9 @@ $user = $requser->fetch();
                 <style>
                   .flex-container > div.<?php echo $donneeh['nomsalle'];?> {
                     border-radius : 7px;
-                    background-color: green;
-                    color: white;
+                    background-image :url(http://espace-rosenwald.com/wp-content/uploads/2010/10/Reunion-Video.gif);
+                    
+                    color:black;
                     width: 400px;
                     margin: 10px;
                     text-align: center;
@@ -139,7 +135,7 @@ $user = $requser->fetch();
                 </style>
 
 
-                <div class=<?php echo $donneeh['nomsalle']; ?>><a class="accessalle"  href= <?php echo "salleN.php?c={$donneeh['nomsalle']}"; ?> >
+                <div class=<?php echo $donneeh['nomsalle']; ?>><a class="accessalle"  href= <?php echo "index.php?action=goto_salleN&c={$donneeh['nomsalle']}"; ?> >
                   <?php echo $name_unstick; ?> <br><?php echo $donneehbis['nbplaces']; ?> places<br>
                   Détails de la salle<br> </a></div>
 
@@ -156,8 +152,10 @@ $user = $requser->fetch();
                   <style>
                     .flex-container > div.<?php echo $donneeh['nomsalle'];?> {
                       border-radius : 7px;
-                      background-color: red;
-                      color: white;
+                      background-image :url(views/ressources/reupleine.png); 
+                      /*-webkit-filter: blur(2px);*/
+                      color: black;
+                      background-size: cover;
                       width: 400px;
                       margin: 10px;
                       text-align: center;
@@ -178,8 +176,9 @@ $user = $requser->fetch();
                   <style>
                     .flex-container > div.<?php echo $donneeh['nomsalle'];?> {
                       border-radius : 7px;
-                      background-color: green;
-                      color: white;
+                      background-image :url(http://espace-rosenwald.com/wp-content/uploads/2010/10/Reunion-Video.gif);
+                      
+                      color: black;
                       width: 400px;
                       margin: 10px;
                       text-align: center;
@@ -189,7 +188,8 @@ $user = $requser->fetch();
                   </style>
 
 
-                  <div class=<?php echo $donneeh['nomsalle']; ?>><a class="accessalle"  href="connexion.php" >
+
+                  <div class=<?php echo $donneeh['nomsalle']; ?>><a class="accessalle"  href="index.php?action=goto_salleN&c={$donneeh['nomsalle']}" >
                     <?php echo $name_unstick; ?> <br><?php echo $donneehbis['nbplaces']; ?> places<br>
                     Détails de la salle<br> </a></div>
 
@@ -205,16 +205,18 @@ $user = $requser->fetch();
 
               ?>
               <!--- 1 MODIF 14/05 /////////////////////-->
+            </div>
 
               
               <?php
               if(isset($_SESSION['id'])){
               ?>
-
-              <form method="post"><input type="submit" name="retourbutton" value="Retour vers le profil" /></form>
+              <div align="center">
+              <form method="post"><input type="submit" class="retourbouton" name="retourbutton" value="Retour vers le profil" /></form></div>
 
               <?php
               }
+          
 
 
               

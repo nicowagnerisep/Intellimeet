@@ -1,7 +1,7 @@
 <?php
 
 
-require('connexionbdd.php');
+
 
 if(isset($_POST['forminscription'])) {
    $pseudo = htmlspecialchars($_POST['pseudo']);
@@ -34,7 +34,7 @@ if(isset($_POST['forminscription'])) {
                         $adminreq=0;
                         $insertmbr = $bdd->prepare("INSERT INTO membres(pseudo, mail, motdepasse,isadmin,adminreq) VALUES(?, ?, ?,?,?)");
                         $insertmbr->execute(array($pseudo, $mail, $mdp, $isadmin,$adminreq));
-                        $erreur = "Votre compte a bien été créé ! <a href=\"connexion.php\">Me connecter</a>";
+                        $erreur = "Votre compte a bien été créé ! <a href=\"index.php?action=goto_connexion\">Me connecter</a>";
             
                      } else {
                         $erreur1 = "";//"Vos mots de passes ne correspondent pas !";
@@ -72,7 +72,7 @@ if(isset($_POST['forminscription'])) {
 <html>
 <head>
   <?php
-    require('header.php');
+    require('views/header.php');
     ?>
 </head>
 
@@ -126,9 +126,9 @@ if(isset($_POST['forminscription'])) {
                </tr>
                <tr>
                   <td></td>
-                  <td align="center">
+                  <td >
                      <br />
-                     <input type="submit" name="forminscription" value="Je m'inscris" />
+                     <input type="submit" name="forminscription" class="retourbouton"value="Je m'inscris" />
                   </td>
                </tr>
             </table>
@@ -140,7 +140,7 @@ if(isset($_POST['forminscription'])) {
       </div>
    </body>
    <?php
-   require('footer.php');
+   require('views/footer.php');
    ?>
 
 </html>

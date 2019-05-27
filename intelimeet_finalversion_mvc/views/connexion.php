@@ -1,7 +1,7 @@
 <?php
 session_start();
+require('views/connectbdd.php');
 
-require ('connexionbdd.php');
 
 
 if(isset($_POST['formconnexion'])) {
@@ -16,7 +16,7 @@ if(isset($_POST['formconnexion'])) {
    $_SESSION['id'] = $userinfo['id'];
    $_SESSION['pseudo'] = $userinfo['pseudo'];
    $_SESSION['mail'] = $userinfo['mail'];
-   header("Location: profil.php?id=".$_SESSION['id']);
+   header("Location: index.php?action=goto_profil");
  } else {
    $erreur1="";
  }
@@ -29,7 +29,7 @@ if(isset($_POST['formconnexion'])) {
 <html>
 <head>
 <?php
-require ('header.php');
+require ('views/header.php');
 ?>
 </head>
 
@@ -41,18 +41,18 @@ require ('header.php');
     <input type="email" name="mailconnect" placeholder="Mail" />
     <input type="password" name="mdpconnect" placeholder="Mot de passe" />
     <br /><br />
-    <input type="submit" name="formconnexion" value="Se connecter !" />
+    <input type="submit" name="formconnexion"class="retourbouton" value="Se connecter !" />
   </form>
   <?php
-  require('isset.php');
+  require('views/isset.php');
   ?>
   <br>
-  <a href="inscription.php">Pas encore inscrit ?</a>
+  <a href="index.php?action=goto_inscription">Pas encore inscrit ?</a>
 </div>
 </body>
 
 <?php
-require ('footer.php');
+require ('views/footer.php');
 ?>
 
 

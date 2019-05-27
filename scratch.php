@@ -1,92 +1,20 @@
 <?php
 session_start();
-$bdd = new PDO('mysql:host=localhost;dbname=espace_membre', 'root', 'root');
-$getid = intval($_GET['id']);
-$requser1 = $bdd->prepare('SELECT * FROM membres WHERE id = ?');
-$requser1->execute(array($getid));
-$userinfo = $requser1->fetch();
+
+require('connexionbdd.php');
+
 ?>
 
 
-<!DOCTYPE html>
+
 <html>
 <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="style.css" >
-    <title>IntelliMeet</title>
-</head>
+  <?php
+  require('header.php');
+  ?>
 
-<body>
-
-
-<header>
-
-<img src="IntelliMeet_Logo_JPG_New.jpg" class="imageheader" height="100%"" alt="Logo"/>
-
-<div id="menu">
-<ul>
-  <li><a href="#">Accueil</a></li>
-  <li><a href="#">Réserver</a>
-  <ul>
-      <li><a href="listesalles.php">Réserver une salle</a></li>
-      <li><a href="listesallesoff.php">Accéder au planning</a></li>
-    </ul></li>
-  <li><a href="#">Mes réunions</a>
-  	<ul>
-      <li><a href="#">Réunions à venir</a></li>
-      <li><a href="#">Historique</a></li>
-      <li><a href="#">Mes paramètres</a></li>
-    </ul>
-  </li>
-  <li><a href="#">Notre équipe</a>
-	<ul>
-      <li><a href="#">Domisep</a></li>
-      <li><a href="#">Notre projet</a></li>
-    </ul>
-  </li>
-  <li><a href="#">Contact</a>
-	<ul>
-      <li><a href="#">SAV</a></li>
-      <li><a href="#">Propositions et remarques</a></li>
-    </ul>
-  </li>
-
-
-</ul>
-</div>
-
-<?php 
-if(isset($_SESSION['id'])) {
-   $requser = $bdd->prepare("SELECT * FROM membres WHERE id = ?");
-   $requser->execute(array($_SESSION['id']));
-   $user = $requser->fetch(); 
-   
-?> 
-<div id="login">
-<ul>
-   <li><a href="?click=1"> <?php echo $user['pseudo']; ?> </a></li>
-</div>
-<?php 
-}else{
-?>
-<div id="login">
-
-<ul>
-  <li><a href="connexion.php">Login</a></li>
-    <li><a href="inscription.php">Sign Up</a></li>
-</div>
-<?php
-}
-
-    
-        if (isset($_GET["click"])) {
-        header('Location: profil.php?id='.$_SESSION['id']);
-        }
-      
-
-?>
-
-</header>
+    </head>
+    <body>
 
 <section>
 <p><h1>Bonjour et bienvenue!</h1></p>
@@ -101,39 +29,11 @@ Ut pulvinar mi quis eros mollis venenatis quis in elit. Maecenas ipsum tellus, l
 
 
 
-<footer>
 
-<div id ="footerleft">
-Mentions légales
-<br/>
-Breadcrumbs 
-
-</div>
-
-<div id ="footermiddle">
-Domisep
-
-</div>
-
-
-<div id= "footerright">
-
-<?php
-//heure
-function showtime(){
-date_default_timezone_set("Europe/Paris");
-echo "" . date("d/m/Y") . "<br>";
-echo "" . date("h:i:s");
-}
-showtime();
-?>
-<br/>
-<br/>
-<strong>Contact</strong>
-</div>
-
-</footer>
 
 </body>
+<?php
+require('footer');
+?>
 
 </html>
